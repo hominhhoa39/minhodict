@@ -1,0 +1,58 @@
+  <span><%= kanjis.length%>件</span>
+  <br>
+  <% for(var i=0; i<kanjis.length; i++) {%>
+  <table>
+    <tr>
+      <td rowspan="3">
+        <div class="vkan"><%= kanjis[i].vkan %>&nbsp;&nbsp;(<%= kanjis[i].jlpt %>)</div>
+        <div class="ji"><%= kanjis[i].ji %></div>
+        <div class="parts"><%= kanjis[i].parts.join("") %></div>
+      </td>
+      <td><%= kanjis[i].on.join("、") %></td>
+    </tr>
+    <tr>
+  　　  <td></td>
+    </tr>
+  
+    <tr>
+      <td><%= kanjis[i].means.join(", ") %></td>
+    </tr>
+
+    <tr>
+      <td>
+        <ul class="kuns">
+        <% for(var j=0; j<kanjis[i].kun.length; j++) {%>
+          <% if (kanjis[i].kun[j].suffix === "") { %>
+            <li class="kun">
+              <span><%= kanjis[i].kun[j].main %></span>
+            </li>
+          <% } else { %>
+            <li class="kun">
+              <span><%= kanjis[i].kun[j].main %>・<%= kanjis[i].kun[j].suffix %></span>
+            </li>
+          <% } %>
+        <% } %>
+        </ul>
+      </td>
+    </tr>
+    
+	<% if (kanjis[i].sample !== null) {%>
+    <tr>
+      <td>
+      <ul class="samples">
+      <% for(var j=0; j<kanjis[i].sample.length; j++) {%>
+        <li class="sample">
+          <span><strong><%= kanjis[i].sample[j].word %></strong></span>&nbsp;&nbsp;
+		  [<span><%= kanjis[i].sample[j].read %></span>]&nbsp;&nbsp;
+		  <span><%= kanjis[i].sample[j].mean %></span>
+        </li>
+      <% } %>
+      </ul>
+      </td>
+    </tr>
+	<% } %>
+	
+  </table>
+  <br>
+  <br>
+  <% } %>
