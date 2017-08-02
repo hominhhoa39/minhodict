@@ -80,19 +80,24 @@ app.get('/search', function(req, res) {
 	//console.log(query);
 
 	var dataSet = [];
-	var kanjicollection = db.collection('kanji');
-	var wordscollection = db.collection('words');
+	var wordsDBName = "ovdp_jv"; //"words"
+	var idForWord = (( wordsDBName === "words" ) ? "ref_words" : "ovdp_words");
+	var kanjicollection = db.collection('kanji_master');
+	var wordscollection = db.collection(wordsDBName);
+
 	var kanjiCursor = kanjicollection.find(query);
 	var lastRslt = [];
+	var limitSampleCnt = 10;
 	kanjiCursor.count(function(err, count) {
 		if (err) {
 			return console.log(err)
 		}
 
 		kanjiCursor.forEach(function(kanji) {
+			var kanjiRef = ((kanji[idForWord].length >= limitSampleCnt) ? kanji[idForWord].splice(0,limitSampleCnt) : kanji[idForWord]) 
 			wordscollection.find({
-				"word": {
-					$regex: kanji.ji
+				"id": {
+					$in: kanjiRef
 				}
 			}, {
 				"_id": 0
@@ -103,7 +108,8 @@ app.get('/search', function(req, res) {
 				lastRslt.push(kanji);
 
 				if (lastRslt.length === count) {
-					ejs.renderFile(__dirname + '/views/index.ejs', {
+                    var ejsName = (( wordsDBName === "words" ) ? "/views/index.ejs" : "/views/index.vn.ejs");
+					ejs.renderFile(__dirname + ejsName, {
 						kanjis: lastRslt
 					}, {}, function(err, str) {
 						if (err) {
