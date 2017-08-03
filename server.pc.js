@@ -9,12 +9,11 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use('/js', express.static(__dirname + '/js'));
-app.use('/css', express.static(__dirname + '/css'));
 app.use('/views', express.static(__dirname + '/views'));
 
 var db
-var mongoUrlStr = 'mongodb://localhost:27017/dictionary';
-MongoClient.connect(mongoUrlStr, function(err, database) {
+
+MongoClient.connect('mongodb://localhost:27017/dictionary', function(err, database) {
 	if (err)
 		return console.log(err)
 	db = database
@@ -30,6 +29,8 @@ app.get('/', function(req, res) {
 app.get('/search', function(req, res) {
 	var obj = req.query;
 	obj.status = "successful";
+	//console.log('body: ' + obj.sData + " " + obj.sType + " " + obj.sJlpt);
+	//res.send(obj);
 	var query = {};
 	if (obj.sCon === 'and') {
 		query["$and"] = [];
@@ -79,24 +80,21 @@ app.get('/search', function(req, res) {
 	//console.log(query);
 
 	var dataSet = [];
-    var masterInfo = {
-        "typeA": {"masterDb":"kanji", "detailDb":"en_words", "template":"/views/kanji_je.ejs" },
-        "typeB": {"masterDb":"kanji", "detailDb":"vn_words", "template":"/views/kanji_jv.ejs" },
-        "typeC": {"masterDb":"en_words", "detailDb":"kanji", "template":"/views/kotoba_je.ejs" },
-        "typeD": {"masterDb":"vn_words", "detailDb":"kanji", "template":"/views/kotoba_jv.ejs" },
-    }
-    
+	var wordsDBName = "ovdp_jv"; //"words"
+	var idForWord = (( wordsDBName === "words" ) ? "ref_words" : "ovdp_words");
 	var kanjicollection = db.collection('kanji_master');
-	var wordscollection = db.collection('words');
+	var wordscollection = db.collection(wordsDBName);
+
 	var kanjiCursor = kanjicollection.find(query);
 	var lastRslt = [];
+	var limitSampleCnt = 10;
 	kanjiCursor.count(function(err, count) {
 		if (err) {
 			return console.log(err)
 		}
 
 		kanjiCursor.forEach(function(kanji) {
-		    var kanjiRef = ((kanji.ref_words.length > 10) ? kanji.ref_words.slice(0,10) : kanji.ref_words);
+			var kanjiRef = ((kanji[idForWord].length >= limitSampleCnt) ? kanji[idForWord].splice(0,limitSampleCnt) : kanji[idForWord]) 
 			wordscollection.find({
 				"id": {
 					$in: kanjiRef
@@ -110,7 +108,8 @@ app.get('/search', function(req, res) {
 				lastRslt.push(kanji);
 
 				if (lastRslt.length === count) {
-					ejs.renderFile(__dirname + '/views/index.mobile.ejs', {
+                    var ejsName = (( wordsDBName === "words" ) ? "/views/index.ejs" : "/views/index.vn.ejs");
+					ejs.renderFile(__dirname + ejsName, {
 						kanjis: lastRslt
 					}, {}, function(err, str) {
 						if (err) {

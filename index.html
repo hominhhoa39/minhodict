@@ -1,1202 +1,363 @@
 <html>
-<head>
-<meta charset="UTF-8">
-<title>漢字辞書</title>
-<script src="../js/jquery-3.2.1.js"></script>
-<script type="text/javascript">
-	$(function() {
-		$('#select_link').click(function(e) {
-			e.preventDefault();
-			console.log('select_link clicked');
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>漢字辞書</title>
+        
+        <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+        <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+        <link rel="stylesheet" href="../css/dict.css">
+        <script src="../js/dict.js"></script>
+    </head>
 
-			var dataSearch = $("#txtSearch").val();
-			var typeSearch = $('#ddlType').find(":selected").val();
-			var jlptSearch = $('#ddlJlpt').find(":selected").val();
-			var conSearch = $('#ddlCon').find(":selected").val();
-			if (dataSearch === "") {
-				alert("Please input something!");
-			} else {
-				var data = {
-					'sData' : dataSearch,
-					'sType' : typeSearch,
-					'sJlpt' : jlptSearch,
-					'sCon' : conSearch,
-				};
+    <body>
+        <div data-role="page" id="pageone">
+            <div data-role="main" class="ui-content">
+            
+                <!-- Search Input  -->
+                <div class="ui-grid-a">
+                    <div class="ui-block-a" style="width:79%">
+                        <input type="search" name="txtSearch" id="txtSearch" placeholder="Enter something...">
+                    </div>
+                    <div class="ui-block-b" style="width:20%">
+                        <a href="#" id="select_link" class="ui-btn ui-shadow ui-corner-all ui-icon-search ui-btn-icon-notext ui-btn-inline"></a>
+                    </div>
+                </div>
+                
+                <!-- Search Level -->
+                <div class="ui-grid-solo" class="center-wrapper">
+                    <div class="ui-block-b">
+                        <div id="lvlGroup" data-role="fieldcontain">
+                            <fieldset data-role="controlgroup" id="ddlJlpt" data-type="horizontal" data-mini="true">
+                                <label for="rdoBtn0">全て</label>
+                                <input type="radio" name="rdoBtnLv" id="rdoBtn0" value="" checked="checked">
+                                <label for="rdoBtn1">N1</label>
+                                <input type="radio" name="rdoBtnLv" id="rdoBtn1" value="N1">
+                                <label for="rdoBtn2">N2</label>
+                                <input type="radio" name="rdoBtnLv" id="rdoBtn2" value="N2">
+                                <label for="rdoBtn3">N3</label>
+                                <input type="radio" name="rdoBtnLv" id="rdoBtn3" value="N3">
+                                <label for="rdoBtn4">N4</label>
+                                <input type="radio" name="rdoBtnLv" id="rdoBtn4" value="N4">
+                                <label for="rdoBtn5">N5</label>
+                                <input type="radio" name="rdoBtnLv" id="rdoBtn5" value="N5">
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Search conditions -->
+                <div class="ui-grid-c">
+                    <div class="ui-block-a" style="width:29%">
+                        <select id="ddlCon" name="ddlCon" data-mini="true">
+                            <option value="or">OR</option>
+                            <option value="and" selected="selected">AND</option>
+                        </select>
+                    </div>
 
-				var url = 'http://localhost:3000/search';
+                    <div class="ui-block-b" style="width:32%">
+                        <select id="ddlType" name="ddlType" data-mini="true">
+                            <option value="ji">漢字</option>
+                            <option value="parts" selected="selected">部首</option>
+                            <option value="on" >音</option>
+                            <option value="kun" >訓</option>
+                            <option value="ekan">漢越音</option>
+                        </select>
+                    </div>
 
-				$.ajax({
-					type : 'GET',
-					data : data,
-					contentType : 'application/json;charset=UTF-8;',
-					url : url,
-					success : function(returnData) {
-						//console.log('success');
-						//console.log(returnData);
-						$("#search_rslt").html("");
-						$("#search_rslt").append(returnData);
-					}
-				});
-			}
-		});
+                    <div class="ui-block-c" style="width:26%">
+                        <select name="ddlLang"　id="ddlLang" data-mini="true">
+                            <option value="en" selected="selected">EN</option>
+                            <option value="vn">VN</option>
+                        </select>
+                    </div>
 
-		function doClick(event) {
-			var txtData = $("#txtSearch").val();
-			var curButton = event.data.mytextbtn;
-			if (txtData === "") {
-				$("#txtSearch").val(curButton);
-			} else {
-				$("#txtSearch").val(txtData + ", " + curButton); //$('#btn1').text()
-			}
-		}
-		;
-
-		$('#btn2').click({
-			mytextbtn : $('#btn2').text()
-		}, doClick);
-		$('#btn3').click({
-			mytextbtn : $('#btn3').text()
-		}, doClick);
-		$('#btn4').click({
-			mytextbtn : $('#btn4').text()
-		}, doClick);
-		$('#btn5').click({
-			mytextbtn : $('#btn5').text()
-		}, doClick);
-		$('#btn6').click({
-			mytextbtn : $('#btn6').text()
-		}, doClick);
-		$('#btn7').click({
-			mytextbtn : $('#btn7').text()
-		}, doClick);
-
-		$('#btn9').click({
-			mytextbtn : $('#btn9').text()
-		}, doClick);
-		$('#btn10').click({
-			mytextbtn : $('#btn10').text()
-		}, doClick);
-		$('#btn11').click({
-			mytextbtn : $('#btn11').text()
-		}, doClick);
-		$('#btn12').click({
-			mytextbtn : $('#btn12').text()
-		}, doClick);
-		$('#btn13').click({
-			mytextbtn : $('#btn13').text()
-		}, doClick);
-		$('#btn14').click({
-			mytextbtn : $('#btn14').text()
-		}, doClick);
-		$('#btn15').click({
-			mytextbtn : $('#btn15').text()
-		}, doClick);
-		$('#btn16').click({
-			mytextbtn : $('#btn16').text()
-		}, doClick);
-		$('#btn17').click({
-			mytextbtn : $('#btn17').text()
-		}, doClick);
-		$('#btn18').click({
-			mytextbtn : $('#btn18').text()
-		}, doClick);
-		$('#btn19').click({
-			mytextbtn : $('#btn19').text()
-		}, doClick);
-		$('#btn20').click({
-			mytextbtn : $('#btn20').text()
-		}, doClick);
-		$('#btn21').click({
-			mytextbtn : $('#btn21').text()
-		}, doClick);
-		$('#btn22').click({
-			mytextbtn : $('#btn22').text()
-		}, doClick);
-		$('#btn23').click({
-			mytextbtn : $('#btn23').text()
-		}, doClick);
-		$('#btn24').click({
-			mytextbtn : $('#btn24').text()
-		}, doClick);
-		$('#btn25').click({
-			mytextbtn : $('#btn25').text()
-		}, doClick);
-		$('#btn26').click({
-			mytextbtn : $('#btn26').text()
-		}, doClick);
-		$('#btn27').click({
-			mytextbtn : $('#btn27').text()
-		}, doClick);
-		$('#btn28').click({
-			mytextbtn : $('#btn28').text()
-		}, doClick);
-		$('#btn29').click({
-			mytextbtn : $('#btn29').text()
-		}, doClick);
-		$('#btn30').click({
-			mytextbtn : $('#btn30').text()
-		}, doClick);
-		$('#btn31').click({
-			mytextbtn : $('#btn31').text()
-		}, doClick);
-		$('#btn32').click({
-			mytextbtn : $('#btn32').text()
-		}, doClick);
-		$('#btn33').click({
-			mytextbtn : $('#btn33').text()
-		}, doClick);
-		$('#btn34').click({
-			mytextbtn : $('#btn34').text()
-		}, doClick);
-		$('#btn35').click({
-			mytextbtn : $('#btn35').text()
-		}, doClick);
-		$('#btn36').click({
-			mytextbtn : $('#btn36').text()
-		}, doClick);
-		$('#btn37').click({
-			mytextbtn : $('#btn37').text()
-		}, doClick);
-		$('#btn38').click({
-			mytextbtn : $('#btn38').text()
-		}, doClick);
-		$('#btn39').click({
-			mytextbtn : $('#btn39').text()
-		}, doClick);
-
-		$('#btn41').click({
-			mytextbtn : $('#btn41').text()
-		}, doClick);
-		$('#btn42').click({
-			mytextbtn : $('#btn42').text()
-		}, doClick);
-		$('#btn43').click({
-			mytextbtn : $('#btn43').text()
-		}, doClick);
-		$('#btn44').click({
-			mytextbtn : $('#btn44').text()
-		}, doClick);
-		$('#btn45').click({
-			mytextbtn : $('#btn45').text()
-		}, doClick);
-		$('#btn46').click({
-			mytextbtn : $('#btn46').text()
-		}, doClick);
-		$('#btn47').click({
-			mytextbtn : $('#btn47').text()
-		}, doClick);
-		$('#btn48').click({
-			mytextbtn : $('#btn48').text()
-		}, doClick);
-		$('#btn49').click({
-			mytextbtn : $('#btn49').text()
-		}, doClick);
-		$('#btn50').click({
-			mytextbtn : $('#btn50').text()
-		}, doClick);
-		$('#btn51').click({
-			mytextbtn : $('#btn51').text()
-		}, doClick);
-		$('#btn52').click({
-			mytextbtn : $('#btn52').text()
-		}, doClick);
-		$('#btn53').click({
-			mytextbtn : $('#btn53').text()
-		}, doClick);
-		$('#btn54').click({
-			mytextbtn : $('#btn54').text()
-		}, doClick);
-		$('#btn55').click({
-			mytextbtn : $('#btn55').text()
-		}, doClick);
-		$('#btn56').click({
-			mytextbtn : $('#btn56').text()
-		}, doClick);
-		$('#btn57').click({
-			mytextbtn : $('#btn57').text()
-		}, doClick);
-		$('#btn58').click({
-			mytextbtn : $('#btn58').text()
-		}, doClick);
-		$('#btn59').click({
-			mytextbtn : $('#btn59').text()
-		}, doClick);
-		$('#btn60').click({
-			mytextbtn : $('#btn60').text()
-		}, doClick);
-		$('#btn61').click({
-			mytextbtn : $('#btn61').text()
-		}, doClick);
-		$('#btn62').click({
-			mytextbtn : $('#btn62').text()
-		}, doClick);
-		$('#btn63').click({
-			mytextbtn : $('#btn63').text()
-		}, doClick);
-		$('#btn64').click({
-			mytextbtn : $('#btn64').text()
-		}, doClick);
-		$('#btn65').click({
-			mytextbtn : $('#btn65').text()
-		}, doClick);
-		$('#btn66').click({
-			mytextbtn : $('#btn66').text()
-		}, doClick);
-		$('#btn67').click({
-			mytextbtn : $('#btn67').text()
-		}, doClick);
-		$('#btn68').click({
-			mytextbtn : $('#btn68').text()
-		}, doClick);
-		$('#btn69').click({
-			mytextbtn : $('#btn69').text()
-		}, doClick);
-		$('#btn70').click({
-			mytextbtn : $('#btn70').text()
-		}, doClick);
-		$('#btn71').click({
-			mytextbtn : $('#btn71').text()
-		}, doClick);
-		$('#btn72').click({
-			mytextbtn : $('#btn72').text()
-		}, doClick);
-		$('#btn73').click({
-			mytextbtn : $('#btn73').text()
-		}, doClick);
-		$('#btn74').click({
-			mytextbtn : $('#btn74').text()
-		}, doClick);
-		$('#btn75').click({
-			mytextbtn : $('#btn75').text()
-		}, doClick);
-		$('#btn76').click({
-			mytextbtn : $('#btn76').text()
-		}, doClick);
-		$('#btn77').click({
-			mytextbtn : $('#btn77').text()
-		}, doClick);
-		$('#btn78').click({
-			mytextbtn : $('#btn78').text()
-		}, doClick);
-		$('#btn79').click({
-			mytextbtn : $('#btn79').text()
-		}, doClick);
-		$('#btn80').click({
-			mytextbtn : $('#btn80').text()
-		}, doClick);
-		$('#btn81').click({
-			mytextbtn : $('#btn81').text()
-		}, doClick);
-		$('#btn82').click({
-			mytextbtn : $('#btn82').text()
-		}, doClick);
-		$('#btn83').click({
-			mytextbtn : $('#btn83').text()
-		}, doClick);
-		$('#btn84').click({
-			mytextbtn : $('#btn84').text()
-		}, doClick);
-		$('#btn85').click({
-			mytextbtn : $('#btn85').text()
-		}, doClick);
-
-		$('#btn87').click({
-			mytextbtn : $('#btn87').text()
-		}, doClick);
-		$('#btn88').click({
-			mytextbtn : $('#btn88').text()
-		}, doClick);
-		$('#btn89').click({
-			mytextbtn : $('#btn89').text()
-		}, doClick);
-		$('#btn90').click({
-			mytextbtn : $('#btn90').text()
-		}, doClick);
-		$('#btn91').click({
-			mytextbtn : $('#btn91').text()
-		}, doClick);
-		$('#btn92').click({
-			mytextbtn : $('#btn92').text()
-		}, doClick);
-		$('#btn93').click({
-			mytextbtn : $('#btn93').text()
-		}, doClick);
-		$('#btn94').click({
-			mytextbtn : $('#btn94').text()
-		}, doClick);
-		$('#btn95').click({
-			mytextbtn : $('#btn95').text()
-		}, doClick);
-		$('#btn96').click({
-			mytextbtn : $('#btn96').text()
-		}, doClick);
-		$('#btn97').click({
-			mytextbtn : $('#btn97').text()
-		}, doClick);
-		$('#btn98').click({
-			mytextbtn : $('#btn98').text()
-		}, doClick);
-		$('#btn99').click({
-			mytextbtn : $('#btn99').text()
-		}, doClick);
-		$('#btn100').click({
-			mytextbtn : $('#btn100').text()
-		}, doClick);
-		$('#btn101').click({
-			mytextbtn : $('#btn101').text()
-		}, doClick);
-		$('#btn102').click({
-			mytextbtn : $('#btn102').text()
-		}, doClick);
-		$('#btn103').click({
-			mytextbtn : $('#btn103').text()
-		}, doClick);
-		$('#btn104').click({
-			mytextbtn : $('#btn104').text()
-		}, doClick);
-		$('#btn105').click({
-			mytextbtn : $('#btn105').text()
-		}, doClick);
-		$('#btn106').click({
-			mytextbtn : $('#btn106').text()
-		}, doClick);
-		$('#btn107').click({
-			mytextbtn : $('#btn107').text()
-		}, doClick);
-		$('#btn108').click({
-			mytextbtn : $('#btn108').text()
-		}, doClick);
-		$('#btn109').click({
-			mytextbtn : $('#btn109').text()
-		}, doClick);
-		$('#btn110').click({
-			mytextbtn : $('#btn110').text()
-		}, doClick);
-		$('#btn111').click({
-			mytextbtn : $('#btn111').text()
-		}, doClick);
-		$('#btn112').click({
-			mytextbtn : $('#btn112').text()
-		}, doClick);
-		$('#btn113').click({
-			mytextbtn : $('#btn113').text()
-		}, doClick);
-		$('#btn114').click({
-			mytextbtn : $('#btn114').text()
-		}, doClick);
-		$('#btn115').click({
-			mytextbtn : $('#btn115').text()
-		}, doClick);
-		$('#btn116').click({
-			mytextbtn : $('#btn116').text()
-		}, doClick);
-		$('#btn117').click({
-			mytextbtn : $('#btn117').text()
-		}, doClick);
-		$('#btn118').click({
-			mytextbtn : $('#btn118').text()
-		}, doClick);
-		$('#btn119').click({
-			mytextbtn : $('#btn119').text()
-		}, doClick);
-		$('#btn120').click({
-			mytextbtn : $('#btn120').text()
-		}, doClick);
-		$('#btn121').click({
-			mytextbtn : $('#btn121').text()
-		}, doClick);
-		$('#btn122').click({
-			mytextbtn : $('#btn122').text()
-		}, doClick);
-		$('#btn123').click({
-			mytextbtn : $('#btn123').text()
-		}, doClick);
-		$('#btn124').click({
-			mytextbtn : $('#btn124').text()
-		}, doClick);
-		$('#btn125').click({
-			mytextbtn : $('#btn125').text()
-		}, doClick);
-		$('#btn126').click({
-			mytextbtn : $('#btn126').text()
-		}, doClick);
-		$('#btn127').click({
-			mytextbtn : $('#btn127').text()
-		}, doClick);
-		$('#btn128').click({
-			mytextbtn : $('#btn128').text()
-		}, doClick);
-		$('#btn129').click({
-			mytextbtn : $('#btn129').text()
-		}, doClick);
-		$('#btn130').click({
-			mytextbtn : $('#btn130').text()
-		}, doClick);
-
-		$('#btn132').click({
-			mytextbtn : $('#btn132').text()
-		}, doClick);
-		$('#btn133').click({
-			mytextbtn : $('#btn133').text()
-		}, doClick);
-		$('#btn134').click({
-			mytextbtn : $('#btn134').text()
-		}, doClick);
-		$('#btn135').click({
-			mytextbtn : $('#btn135').text()
-		}, doClick);
-		$('#btn136').click({
-			mytextbtn : $('#btn136').text()
-		}, doClick);
-		$('#btn137').click({
-			mytextbtn : $('#btn137').text()
-		}, doClick);
-		$('#btn138').click({
-			mytextbtn : $('#btn138').text()
-		}, doClick);
-		$('#btn139').click({
-			mytextbtn : $('#btn139').text()
-		}, doClick);
-		$('#btn140').click({
-			mytextbtn : $('#btn140').text()
-		}, doClick);
-		$('#btn141').click({
-			mytextbtn : $('#btn141').text()
-		}, doClick);
-		$('#btn142').click({
-			mytextbtn : $('#btn142').text()
-		}, doClick);
-		$('#btn143').click({
-			mytextbtn : $('#btn143').text()
-		}, doClick);
-		$('#btn144').click({
-			mytextbtn : $('#btn144').text()
-		}, doClick);
-		$('#btn145').click({
-			mytextbtn : $('#btn145').text()
-		}, doClick);
-		$('#btn146').click({
-			mytextbtn : $('#btn146').text()
-		}, doClick);
-		$('#btn147').click({
-			mytextbtn : $('#btn147').text()
-		}, doClick);
-		$('#btn148').click({
-			mytextbtn : $('#btn148').text()
-		}, doClick);
-		$('#btn149').click({
-			mytextbtn : $('#btn149').text()
-		}, doClick);
-		$('#btn150').click({
-			mytextbtn : $('#btn150').text()
-		}, doClick);
-		$('#btn151').click({
-			mytextbtn : $('#btn151').text()
-		}, doClick);
-		$('#btn152').click({
-			mytextbtn : $('#btn152').text()
-		}, doClick);
-		$('#btn153').click({
-			mytextbtn : $('#btn153').text()
-		}, doClick);
-		$('#btn154').click({
-			mytextbtn : $('#btn154').text()
-		}, doClick);
-		$('#btn155').click({
-			mytextbtn : $('#btn155').text()
-		}, doClick);
-		$('#btn156').click({
-			mytextbtn : $('#btn156').text()
-		}, doClick);
-		$('#btn157').click({
-			mytextbtn : $('#btn157').text()
-		}, doClick);
-		$('#btn158').click({
-			mytextbtn : $('#btn158').text()
-		}, doClick);
-		$('#btn159').click({
-			mytextbtn : $('#btn159').text()
-		}, doClick);
-
-		$('#btn161').click({
-			mytextbtn : $('#btn161').text()
-		}, doClick);
-		$('#btn162').click({
-			mytextbtn : $('#btn162').text()
-		}, doClick);
-		$('#btn163').click({
-			mytextbtn : $('#btn163').text()
-		}, doClick);
-		$('#btn164').click({
-			mytextbtn : $('#btn164').text()
-		}, doClick);
-		$('#btn165').click({
-			mytextbtn : $('#btn165').text()
-		}, doClick);
-		$('#btn166').click({
-			mytextbtn : $('#btn166').text()
-		}, doClick);
-		$('#btn167').click({
-			mytextbtn : $('#btn167').text()
-		}, doClick);
-		$('#btn168').click({
-			mytextbtn : $('#btn168').text()
-		}, doClick);
-		$('#btn169').click({
-			mytextbtn : $('#btn169').text()
-		}, doClick);
-		$('#btn170').click({
-			mytextbtn : $('#btn170').text()
-		}, doClick);
-		$('#btn171').click({
-			mytextbtn : $('#btn171').text()
-		}, doClick);
-		$('#btn172').click({
-			mytextbtn : $('#btn172').text()
-		}, doClick);
-		$('#btn173').click({
-			mytextbtn : $('#btn173').text()
-		}, doClick);
-		$('#btn174').click({
-			mytextbtn : $('#btn174').text()
-		}, doClick);
-		$('#btn175').click({
-			mytextbtn : $('#btn175').text()
-		}, doClick);
-		$('#btn176').click({
-			mytextbtn : $('#btn176').text()
-		}, doClick);
-		$('#btn177').click({
-			mytextbtn : $('#btn177').text()
-		}, doClick);
-		$('#btn178').click({
-			mytextbtn : $('#btn178').text()
-		}, doClick);
-		$('#btn179').click({
-			mytextbtn : $('#btn179').text()
-		}, doClick);
-		$('#btn180').click({
-			mytextbtn : $('#btn180').text()
-		}, doClick);
-		$('#btn181').click({
-			mytextbtn : $('#btn181').text()
-		}, doClick);
-		$('#btn182').click({
-			mytextbtn : $('#btn182').text()
-		}, doClick);
-		$('#btn183').click({
-			mytextbtn : $('#btn183').text()
-		}, doClick);
-		$('#btn184').click({
-			mytextbtn : $('#btn184').text()
-		}, doClick);
-		$('#btn185').click({
-			mytextbtn : $('#btn185').text()
-		}, doClick);
-
-		$('#btn187').click({
-			mytextbtn : $('#btn187').text()
-		}, doClick);
-		$('#btn188').click({
-			mytextbtn : $('#btn188').text()
-		}, doClick);
-		$('#btn189').click({
-			mytextbtn : $('#btn189').text()
-		}, doClick);
-		$('#btn190').click({
-			mytextbtn : $('#btn190').text()
-		}, doClick);
-		$('#btn191').click({
-			mytextbtn : $('#btn191').text()
-		}, doClick);
-		$('#btn192').click({
-			mytextbtn : $('#btn192').text()
-		}, doClick);
-		$('#btn193').click({
-			mytextbtn : $('#btn193').text()
-		}, doClick);
-		$('#btn194').click({
-			mytextbtn : $('#btn194').text()
-		}, doClick);
-		$('#btn195').click({
-			mytextbtn : $('#btn195').text()
-		}, doClick);
-		$('#btn196').click({
-			mytextbtn : $('#btn196').text()
-		}, doClick);
-		$('#btn197').click({
-			mytextbtn : $('#btn197').text()
-		}, doClick);
-		$('#btn198').click({
-			mytextbtn : $('#btn198').text()
-		}, doClick);
-		$('#btn199').click({
-			mytextbtn : $('#btn199').text()
-		}, doClick);
-		$('#btn200').click({
-			mytextbtn : $('#btn200').text()
-		}, doClick);
-		$('#btn201').click({
-			mytextbtn : $('#btn201').text()
-		}, doClick);
-		$('#btn202').click({
-			mytextbtn : $('#btn202').text()
-		}, doClick);
-		$('#btn203').click({
-			mytextbtn : $('#btn203').text()
-		}, doClick);
-		$('#btn204').click({
-			mytextbtn : $('#btn204').text()
-		}, doClick);
-		$('#btn205').click({
-			mytextbtn : $('#btn205').text()
-		}, doClick);
-		$('#btn206').click({
-			mytextbtn : $('#btn206').text()
-		}, doClick);
-		$('#btn207').click({
-			mytextbtn : $('#btn207').text()
-		}, doClick);
-
-		$('#btn209').click({
-			mytextbtn : $('#btn209').text()
-		}, doClick);
-		$('#btn210').click({
-			mytextbtn : $('#btn210').text()
-		}, doClick);
-		$('#btn211').click({
-			mytextbtn : $('#btn211').text()
-		}, doClick);
-		$('#btn212').click({
-			mytextbtn : $('#btn212').text()
-		}, doClick);
-		$('#btn213').click({
-			mytextbtn : $('#btn213').text()
-		}, doClick);
-		$('#btn214').click({
-			mytextbtn : $('#btn214').text()
-		}, doClick);
-		$('#btn215').click({
-			mytextbtn : $('#btn215').text()
-		}, doClick);
-		$('#btn216').click({
-			mytextbtn : $('#btn216').text()
-		}, doClick);
-		$('#btn217').click({
-			mytextbtn : $('#btn217').text()
-		}, doClick);
-		$('#btn218').click({
-			mytextbtn : $('#btn218').text()
-		}, doClick);
-		$('#btn219').click({
-			mytextbtn : $('#btn219').text()
-		}, doClick);
-		$('#btn220').click({
-			mytextbtn : $('#btn220').text()
-		}, doClick);
-
-		$('#btn222').click({
-			mytextbtn : $('#btn222').text()
-		}, doClick);
-		$('#btn223').click({
-			mytextbtn : $('#btn223').text()
-		}, doClick);
-		$('#btn224').click({
-			mytextbtn : $('#btn224').text()
-		}, doClick);
-		$('#btn225').click({
-			mytextbtn : $('#btn225').text()
-		}, doClick);
-		$('#btn226').click({
-			mytextbtn : $('#btn226').text()
-		}, doClick);
-		$('#btn227').click({
-			mytextbtn : $('#btn227').text()
-		}, doClick);
-		$('#btn228').click({
-			mytextbtn : $('#btn228').text()
-		}, doClick);
-		$('#btn229').click({
-			mytextbtn : $('#btn229').text()
-		}, doClick);
-		$('#btn230').click({
-			mytextbtn : $('#btn230').text()
-		}, doClick);
-		$('#btn231').click({
-			mytextbtn : $('#btn231').text()
-		}, doClick);
-		$('#btn232').click({
-			mytextbtn : $('#btn232').text()
-		}, doClick);
-
-		$('#btn234').click({
-			mytextbtn : $('#btn234').text()
-		}, doClick);
-		$('#btn235').click({
-			mytextbtn : $('#btn235').text()
-		}, doClick);
-		$('#btn236').click({
-			mytextbtn : $('#btn236').text()
-		}, doClick);
-		$('#btn237').click({
-			mytextbtn : $('#btn237').text()
-		}, doClick);
-		$('#btn238').click({
-			mytextbtn : $('#btn238').text()
-		}, doClick);
-		$('#btn239').click({
-			mytextbtn : $('#btn239').text()
-		}, doClick);
-		$('#btn240').click({
-			mytextbtn : $('#btn240').text()
-		}, doClick);
-		$('#btn241').click({
-			mytextbtn : $('#btn241').text()
-		}, doClick);
-		$('#btn242').click({
-			mytextbtn : $('#btn242').text()
-		}, doClick);
-		$('#btn243').click({
-			mytextbtn : $('#btn243').text()
-		}, doClick);
-
-		$('#btn245').click({
-			mytextbtn : $('#btn245').text()
-		}, doClick);
-		$('#btn246').click({
-			mytextbtn : $('#btn246').text()
-		}, doClick);
-		$('#btn247').click({
-			mytextbtn : $('#btn247').text()
-		}, doClick);
-		$('#btn248').click({
-			mytextbtn : $('#btn248').text()
-		}, doClick);
-		$('#btn249').click({
-			mytextbtn : $('#btn249').text()
-		}, doClick);
-		$('#btn250').click({
-			mytextbtn : $('#btn250').text()
-		}, doClick);
-		$('#btn251').click({
-			mytextbtn : $('#btn251').text()
-		}, doClick);
-		$('#btn252').click({
-			mytextbtn : $('#btn252').text()
-		}, doClick);
-		$('#btn253').click({
-			mytextbtn : $('#btn253').text()
-		}, doClick);
-
-		$('#btn255').click({
-			mytextbtn : $('#btn255').text()
-		}, doClick);
-		$('#btn256').click({
-			mytextbtn : $('#btn256').text()
-		}, doClick);
-		$('#btn257').click({
-			mytextbtn : $('#btn257').text()
-		}, doClick);
-		$('#btn258').click({
-			mytextbtn : $('#btn258').text()
-		}, doClick);
-
-		$('#btn260').click({
-			mytextbtn : $('#btn260').text()
-		}, doClick);
-		$('#btn261').click({
-			mytextbtn : $('#btn261').text()
-		}, doClick);
-		$('#btn262').click({
-			mytextbtn : $('#btn262').text()
-		}, doClick);
-		$('#btn263').click({
-			mytextbtn : $('#btn263').text()
-		}, doClick);
-
-		$('#btn265').click({
-			mytextbtn : $('#btn265').text()
-		}, doClick);
-		$('#btn266').click({
-			mytextbtn : $('#btn266').text()
-		}, doClick);
-
-		$('#btn268').click({
-			mytextbtn : $('#btn268').text()
-		}, doClick);
-
-	});
-</script>
-<style>
-table, th, td {
-	border: collapse;
-}
-
-.ji {
-	padding: 1px 0;
-	max-width: 90px;
-	max-height: 90px;
-	width: 90px;
-	height: 90px;
-	font-family: verdana;
-	font-size: 50pt;
-	border: 1px solid black;
-	text-align: center;
-}
-
-.vkan {
-	text-align: center;
-}
-
-.parts {
-	text-align: center;
-}
-
-td[rowspan] {
-	vertical-align: top;
-	text-align: left;
-}
-
-ul {
-	list-style-type: none;
-}
-
-.mybutton {
-	border: none;
-	color: white;
-	text-align: center;
-	text-decoration: none;
-	display: inline-block;
-	font-size: 16px;
-	cursor: pointer;
-	width: 30px;
-	height: 30px;
-}
-
-.radBtn {
-	background-color: #f2f2f2;
-	color: black;
-} /* Gray */
-.radBtn:hover {
-	background-color: lightgrey;
-}
-
-.numBtn {
-	background-color: #555555;
-	cursor: default;
-}
-</style>
-</head>
-<body>
-	<div id="select_div">
-		<select id="ddlCon">
-			<option value="or" selected>OR</option>
-			<option value="and">AND</option>
-		</select> <select id="ddlType">
-			<option value="parts" selected>PARTS</option>
-			<option value="on">ON</option>
-			<option value="kun">KUN</option>
-			<option value="ekan">AM HAN</option>
-		</select> <input type="text" id="txtSearch"> <select id="ddlJlpt">
-			<option value="">ALL</option>
-			<option value="N1" selected>N1</option>
-			<option value="N2">N2</option>
-			<option value="N3">N3</option>
-			<option value="N4">N4</option>
-			<option value="N5">N5</option>
-		</select> <a href="#" id="select_link">Search</a> <br> <br>
-		<table>
-			<tr>
-				<td><button id="btn1" type="button" class="mybutton numBtn">1</button></td>
-				<td><button id="btn2" type="button" class="mybutton radBtn">一</button></td>
-				<td><button id="btn3" type="button" class="mybutton radBtn">｜</button></td>
-				<td><button id="btn4" type="button" class="mybutton radBtn">丶</button></td>
-				<td><button id="btn5" type="button" class="mybutton radBtn">ノ</button></td>
-				<td><button id="btn6" type="button" class="mybutton radBtn">乙</button></td>
-				<td><button id="btn7" type="button" class="mybutton radBtn">亅</button></td>
-				<td><button id="btn8" type="button" class="mybutton numBtn">2</button></td>
-				<td><button id="btn9" type="button" class="mybutton radBtn">二</button></td>
-				<td><button id="btn10" type="button" class="mybutton radBtn">亠</button></td>
-				<td><button id="btn11" type="button" class="mybutton radBtn">人</button></td>
-				<td><button id="btn12" type="button" class="mybutton radBtn">⺅</button></td>
-				<td><button id="btn13" type="button" class="mybutton radBtn">𠆢</button></td>
-				<td><button id="btn14" type="button" class="mybutton radBtn">儿</button></td>
-				<td><button id="btn15" type="button" class="mybutton radBtn">入</button></td>
-				<td><button id="btn16" type="button" class="mybutton radBtn">ハ</button></td>
-				<td><button id="btn17" type="button" class="mybutton radBtn">丷</button></td>
-				<td><button id="btn18" type="button" class="mybutton radBtn">冂</button></td>
-				<td><button id="btn19" type="button" class="mybutton radBtn">冖</button></td>
-				<td><button id="btn20" type="button" class="mybutton radBtn">冫</button></td>
-				<td><button id="btn21" type="button" class="mybutton radBtn">几</button></td>
-				<td><button id="btn22" type="button" class="mybutton radBtn">凵</button></td>
-				<td><button id="btn23" type="button" class="mybutton radBtn">刀</button></td>
-				<td><button id="btn24" type="button" class="mybutton radBtn">⺉</button></td>
-				<td><button id="btn25" type="button" class="mybutton radBtn">力</button></td>
-			</tr>
-			<tr>
-				<td><button id="btn26" type="button" class="mybutton radBtn">勹</button></td>
-				<td><button id="btn27" type="button" class="mybutton radBtn">匕</button></td>
-				<td><button id="btn28" type="button" class="mybutton radBtn">匚</button></td>
-				<td><button id="btn29" type="button" class="mybutton radBtn">十</button></td>
-				<td><button id="btn30" type="button" class="mybutton radBtn">卜</button></td>
-				<td><button id="btn31" type="button" class="mybutton radBtn">卩</button></td>
-				<td><button id="btn32" type="button" class="mybutton radBtn">厂</button></td>
-				<td><button id="btn33" type="button" class="mybutton radBtn">厶</button></td>
-				<td><button id="btn34" type="button" class="mybutton radBtn">又</button></td>
-				<td><button id="btn35" type="button" class="mybutton radBtn">マ</button></td>
-				<td><button id="btn36" type="button" class="mybutton radBtn">九</button></td>
-				<td><button id="btn37" type="button" class="mybutton radBtn">ユ</button></td>
-				<td><button id="btn38" type="button" class="mybutton radBtn">乃</button></td>
-				<td><button id="btn39" type="button" class="mybutton radBtn">𠂉</button></td>
-				<td><button id="btn40" type="button" class="mybutton numBtn">3</button></td>
-				<td><button id="btn41" type="button" class="mybutton radBtn">⻌</button></td>
-				<td><button id="btn42" type="button" class="mybutton radBtn">口</button></td>
-				<td><button id="btn43" type="button" class="mybutton radBtn">囗</button></td>
-				<td><button id="btn44" type="button" class="mybutton radBtn">土</button></td>
-				<td><button id="btn45" type="button" class="mybutton radBtn">士</button></td>
-				<td><button id="btn46" type="button" class="mybutton radBtn">夂</button></td>
-				<td><button id="btn47" type="button" class="mybutton radBtn">夕</button></td>
-				<td><button id="btn48" type="button" class="mybutton radBtn">大</button></td>
-				<td><button id="btn49" type="button" class="mybutton radBtn">女</button></td>
-				<td><button id="btn50" type="button" class="mybutton radBtn">子</button></td>
-			</tr>
-			<tr>
-				<td><button id="btn51" type="button" class="mybutton radBtn">宀</button></td>
-				<td><button id="btn52" type="button" class="mybutton radBtn">寸</button></td>
-				<td><button id="btn53" type="button" class="mybutton radBtn">小</button></td>
-				<td><button id="btn54" type="button" class="mybutton radBtn">⺌</button></td>
-				<td><button id="btn55" type="button" class="mybutton radBtn">尢</button></td>
-				<td><button id="btn56" type="button" class="mybutton radBtn">尸</button></td>
-				<td><button id="btn57" type="button" class="mybutton radBtn">屮</button></td>
-				<td><button id="btn58" type="button" class="mybutton radBtn">山</button></td>
-				<td><button id="btn59" type="button" class="mybutton radBtn">川</button></td>
-				<td><button id="btn60" type="button" class="mybutton radBtn">巛</button></td>
-				<td><button id="btn61" type="button" class="mybutton radBtn">工</button></td>
-				<td><button id="btn62" type="button" class="mybutton radBtn">已</button></td>
-				<td><button id="btn63" type="button" class="mybutton radBtn">巾</button></td>
-				<td><button id="btn64" type="button" class="mybutton radBtn">干</button></td>
-				<td><button id="btn65" type="button" class="mybutton radBtn">幺</button></td>
-				<td><button id="btn66" type="button" class="mybutton radBtn">广</button></td>
-				<td><button id="btn67" type="button" class="mybutton radBtn">廴</button></td>
-				<td><button id="btn68" type="button" class="mybutton radBtn">廾</button></td>
-				<td><button id="btn69" type="button" class="mybutton radBtn">弋</button></td>
-				<td><button id="btn70" type="button" class="mybutton radBtn">弓</button></td>
-				<td><button id="btn71" type="button" class="mybutton radBtn">ヨ</button></td>
-				<td><button id="btn72" type="button" class="mybutton radBtn">彑</button></td>
-				<td><button id="btn73" type="button" class="mybutton radBtn">彡</button></td>
-				<td><button id="btn74" type="button" class="mybutton radBtn">彳</button></td>
-				<td><button id="btn75" type="button" class="mybutton radBtn">⺖</button></td>
-			</tr>
-			<tr>
-				<td><button id="btn76" type="button" class="mybutton radBtn">⺘</button></td>
-				<td><button id="btn77" type="button" class="mybutton radBtn">⺡</button></td>
-				<td><button id="btn78" type="button" class="mybutton radBtn">⺨</button></td>
-				<td><button id="btn79" type="button" class="mybutton radBtn">⺾</button></td>
-				<td><button id="btn80" type="button" class="mybutton radBtn">⻏</button></td>
-				<td><button id="btn81" type="button" class="mybutton radBtn">⻖</button></td>
-				<td><button id="btn82" type="button" class="mybutton radBtn">也</button></td>
-				<td><button id="btn83" type="button" class="mybutton radBtn">亡</button></td>
-				<td><button id="btn84" type="button" class="mybutton radBtn">及</button></td>
-				<td><button id="btn85" type="button" class="mybutton radBtn">久</button></td>
-				<td><button id="btn86" type="button" class="mybutton numBtn">4</button></td>
-				<td><button id="btn87" type="button" class="mybutton radBtn">⺹</button></td>
-				<td><button id="btn88" type="button" class="mybutton radBtn">心</button></td>
-				<td><button id="btn89" type="button" class="mybutton radBtn">戈</button></td>
-				<td><button id="btn90" type="button" class="mybutton radBtn">戸</button></td>
-				<td><button id="btn91" type="button" class="mybutton radBtn">手</button></td>
-				<td><button id="btn92" type="button" class="mybutton radBtn">支</button></td>
-				<td><button id="btn93" type="button" class="mybutton radBtn">攵</button></td>
-				<td><button id="btn94" type="button" class="mybutton radBtn">文</button></td>
-				<td><button id="btn95" type="button" class="mybutton radBtn">斗</button></td>
-				<td><button id="btn96" type="button" class="mybutton radBtn">斤</button></td>
-				<td><button id="btn97" type="button" class="mybutton radBtn">方</button></td>
-				<td><button id="btn98" type="button" class="mybutton radBtn">无</button></td>
-				<td><button id="btn99" type="button" class="mybutton radBtn">日</button></td>
-				<td><button id="btn100" type="button" class="mybutton radBtn">曰</button></td>
-			</tr>
-			<tr>
-				<td><button id="btn101" type="button" class="mybutton radBtn">月</button></td>
-				<td><button id="btn102" type="button" class="mybutton radBtn">木</button></td>
-				<td><button id="btn103" type="button" class="mybutton radBtn">欠</button></td>
-				<td><button id="btn104" type="button" class="mybutton radBtn">止</button></td>
-				<td><button id="btn105" type="button" class="mybutton radBtn">歹</button></td>
-				<td><button id="btn106" type="button" class="mybutton radBtn">殳</button></td>
-				<td><button id="btn107" type="button" class="mybutton radBtn">比</button></td>
-				<td><button id="btn108" type="button" class="mybutton radBtn">毛</button></td>
-				<td><button id="btn109" type="button" class="mybutton radBtn">氏</button></td>
-				<td><button id="btn110" type="button" class="mybutton radBtn">气</button></td>
-				<td><button id="btn111" type="button" class="mybutton radBtn">水</button></td>
-				<td><button id="btn112" type="button" class="mybutton radBtn">火</button></td>
-				<td><button id="btn113" type="button" class="mybutton radBtn">⺣</button></td>
-				<td><button id="btn114" type="button" class="mybutton radBtn">爪</button></td>
-				<td><button id="btn115" type="button" class="mybutton radBtn">父</button></td>
-				<td><button id="btn116" type="button" class="mybutton radBtn">爻</button></td>
-				<td><button id="btn117" type="button" class="mybutton radBtn">爿</button></td>
-				<td><button id="btn118" type="button" class="mybutton radBtn">片</button></td>
-				<td><button id="btn119" type="button" class="mybutton radBtn">牛</button></td>
-				<td><button id="btn120" type="button" class="mybutton radBtn">犬</button></td>
-				<td><button id="btn121" type="button" class="mybutton radBtn">⺭</button></td>
-				<td><button id="btn122" type="button" class="mybutton radBtn">王</button></td>
-				<td><button id="btn123" type="button" class="mybutton radBtn">元</button></td>
-				<td><button id="btn124" type="button" class="mybutton radBtn">井</button></td>
-				<td><button id="btn125" type="button" class="mybutton radBtn">勿</button></td>
-			</tr>
-			<tr>
-				<td><button id="btn126" type="button" class="mybutton radBtn">尤</button></td>
-				<td><button id="btn127" type="button" class="mybutton radBtn">五</button></td>
-				<td><button id="btn128" type="button" class="mybutton radBtn">屯</button></td>
-				<td><button id="btn129" type="button" class="mybutton radBtn">巴</button></td>
-				<td><button id="btn130" type="button" class="mybutton radBtn">毋</button></td>
-				<td><button id="btn131" type="button" class="mybutton numBtn">5</button></td>
-				<td><button id="btn132" type="button" class="mybutton radBtn">玄</button></td>
-				<td><button id="btn133" type="button" class="mybutton radBtn">瓦</button></td>
-				<td><button id="btn134" type="button" class="mybutton radBtn">甘</button></td>
-				<td><button id="btn135" type="button" class="mybutton radBtn">生</button></td>
-				<td><button id="btn136" type="button" class="mybutton radBtn">用</button></td>
-				<td><button id="btn137" type="button" class="mybutton radBtn">田</button></td>
-				<td><button id="btn138" type="button" class="mybutton radBtn">疋</button></td>
-				<td><button id="btn139" type="button" class="mybutton radBtn">疒</button></td>
-				<td><button id="btn140" type="button" class="mybutton radBtn">癶</button></td>
-				<td><button id="btn141" type="button" class="mybutton radBtn">白</button></td>
-				<td><button id="btn142" type="button" class="mybutton radBtn">皮</button></td>
-				<td><button id="btn143" type="button" class="mybutton radBtn">皿</button></td>
-				<td><button id="btn144" type="button" class="mybutton radBtn">目</button></td>
-				<td><button id="btn145" type="button" class="mybutton radBtn">矛</button></td>
-				<td><button id="btn146" type="button" class="mybutton radBtn">矢</button></td>
-				<td><button id="btn147" type="button" class="mybutton radBtn">石</button></td>
-				<td><button id="btn148" type="button" class="mybutton radBtn">示</button></td>
-				<td><button id="btn149" type="button" class="mybutton radBtn">禸</button></td>
-				<td><button id="btn150" type="button" class="mybutton radBtn">禾</button></td>
-			</tr>
-			<tr>
-				<td><button id="btn151" type="button" class="mybutton radBtn">穴</button></td>
-				<td><button id="btn152" type="button" class="mybutton radBtn">立</button></td>
-				<td><button id="btn153" type="button" class="mybutton radBtn">⻂</button></td>
-				<td><button id="btn154" type="button" class="mybutton radBtn">世</button></td>
-				<td><button id="btn155" type="button" class="mybutton radBtn">巨</button></td>
-				<td><button id="btn156" type="button" class="mybutton radBtn">冊</button></td>
-				<td><button id="btn157" type="button" class="mybutton radBtn">母</button></td>
-				<td><button id="btn158" type="button" class="mybutton radBtn">⺲</button></td>
-				<td><button id="btn159" type="button" class="mybutton radBtn">牙</button></td>
-				<td><button id="btn160" type="button" class="mybutton numBtn">6</button></td>
-				<td><button id="btn161" type="button" class="mybutton radBtn">瓜</button></td>
-				<td><button id="btn162" type="button" class="mybutton radBtn">竹</button></td>
-				<td><button id="btn163" type="button" class="mybutton radBtn">米</button></td>
-				<td><button id="btn164" type="button" class="mybutton radBtn">糸</button></td>
-				<td><button id="btn165" type="button" class="mybutton radBtn">缶</button></td>
-				<td><button id="btn166" type="button" class="mybutton radBtn">羊</button></td>
-				<td><button id="btn167" type="button" class="mybutton radBtn">羽</button></td>
-				<td><button id="btn168" type="button" class="mybutton radBtn">而</button></td>
-				<td><button id="btn169" type="button" class="mybutton radBtn">耒</button></td>
-				<td><button id="btn170" type="button" class="mybutton radBtn">耳</button></td>
-				<td><button id="btn171" type="button" class="mybutton radBtn">聿</button></td>
-				<td><button id="btn172" type="button" class="mybutton radBtn">肉</button></td>
-				<td><button id="btn173" type="button" class="mybutton radBtn">自</button></td>
-				<td><button id="btn174" type="button" class="mybutton radBtn">至</button></td>
-				<td><button id="btn175" type="button" class="mybutton radBtn">臼</button></td>
-			</tr>
-			<tr>
-				<td><button id="btn176" type="button" class="mybutton radBtn">舌</button></td>
-				<td><button id="btn177" type="button" class="mybutton radBtn">舟</button></td>
-				<td><button id="btn178" type="button" class="mybutton radBtn">艮</button></td>
-				<td><button id="btn179" type="button" class="mybutton radBtn">色</button></td>
-				<td><button id="btn180" type="button" class="mybutton radBtn">虍</button></td>
-				<td><button id="btn181" type="button" class="mybutton radBtn">虫</button></td>
-				<td><button id="btn182" type="button" class="mybutton radBtn">血</button></td>
-				<td><button id="btn183" type="button" class="mybutton radBtn">行</button></td>
-				<td><button id="btn184" type="button" class="mybutton radBtn">衣</button></td>
-				<td><button id="btn185" type="button" class="mybutton radBtn">西</button></td>
-				<td><button id="btn186" type="button" class="mybutton numBtn">7</button></td>
-				<td><button id="btn187" type="button" class="mybutton radBtn">臣</button></td>
-				<td><button id="btn188" type="button" class="mybutton radBtn">見</button></td>
-				<td><button id="btn189" type="button" class="mybutton radBtn">角</button></td>
-				<td><button id="btn190" type="button" class="mybutton radBtn">言</button></td>
-				<td><button id="btn191" type="button" class="mybutton radBtn">谷</button></td>
-				<td><button id="btn192" type="button" class="mybutton radBtn">豆</button></td>
-				<td><button id="btn193" type="button" class="mybutton radBtn">豕</button></td>
-				<td><button id="btn194" type="button" class="mybutton radBtn">豸</button></td>
-				<td><button id="btn195" type="button" class="mybutton radBtn">貝</button></td>
-				<td><button id="btn196" type="button" class="mybutton radBtn">赤</button></td>
-				<td><button id="btn197" type="button" class="mybutton radBtn">走</button></td>
-				<td><button id="btn198" type="button" class="mybutton radBtn">足</button></td>
-				<td><button id="btn199" type="button" class="mybutton radBtn">身</button></td>
-				<td><button id="btn200" type="button" class="mybutton radBtn">車</button></td>
-			</tr>
-			<tr>
-				<td><button id="btn201" type="button" class="mybutton radBtn">辛</button></td>
-				<td><button id="btn202" type="button" class="mybutton radBtn">辰</button></td>
-				<td><button id="btn203" type="button" class="mybutton radBtn">酉</button></td>
-				<td><button id="btn204" type="button" class="mybutton radBtn">釆</button></td>
-				<td><button id="btn205" type="button" class="mybutton radBtn">里</button></td>
-				<td><button id="btn206" type="button" class="mybutton radBtn">舛</button></td>
-				<td><button id="btn207" type="button" class="mybutton radBtn">麦</button></td>
-				<td><button id="btn208" type="button" class="mybutton numBtn">8</button></td>
-				<td><button id="btn209" type="button" class="mybutton radBtn">金</button></td>
-				<td><button id="btn210" type="button" class="mybutton radBtn">長</button></td>
-				<td><button id="btn211" type="button" class="mybutton radBtn">門</button></td>
-				<td><button id="btn212" type="button" class="mybutton radBtn">隶</button></td>
-				<td><button id="btn213" type="button" class="mybutton radBtn">隹</button></td>
-				<td><button id="btn214" type="button" class="mybutton radBtn">雨</button></td>
-				<td><button id="btn215" type="button" class="mybutton radBtn">青</button></td>
-				<td><button id="btn216" type="button" class="mybutton radBtn">非</button></td>
-				<td><button id="btn217" type="button" class="mybutton radBtn">奄</button></td>
-				<td><button id="btn218" type="button" class="mybutton radBtn">岡</button></td>
-				<td><button id="btn219" type="button" class="mybutton radBtn">免</button></td>
-				<td><button id="btn220" type="button" class="mybutton radBtn">斉</button></td>
-				<td><button id="btn221" type="button" class="mybutton numBtn">9</button></td>
-				<td><button id="btn222" type="button" class="mybutton radBtn">面</button></td>
-				<td><button id="btn223" type="button" class="mybutton radBtn">革</button></td>
-				<td><button id="btn224" type="button" class="mybutton radBtn">韭</button></td>
-				<td><button id="btn225" type="button" class="mybutton radBtn">音</button></td>
-			</tr>
-			<tr>
-				<td><button id="btn226" type="button" class="mybutton radBtn">頁</button></td>
-				<td><button id="btn227" type="button" class="mybutton radBtn">風</button></td>
-				<td><button id="btn228" type="button" class="mybutton radBtn">飛</button></td>
-				<td><button id="btn229" type="button" class="mybutton radBtn">食</button></td>
-				<td><button id="btn230" type="button" class="mybutton radBtn">首</button></td>
-				<td><button id="btn231" type="button" class="mybutton radBtn">香</button></td>
-				<td><button id="btn232" type="button" class="mybutton radBtn">品</button></td>
-				<td><button id="btn233" type="button" class="mybutton numBtn">10</button></td>
-				<td><button id="btn234" type="button" class="mybutton radBtn">馬</button></td>
-				<td><button id="btn235" type="button" class="mybutton radBtn">骨</button></td>
-				<td><button id="btn236" type="button" class="mybutton radBtn">高</button></td>
-				<td><button id="btn237" type="button" class="mybutton radBtn">髟</button></td>
-				<td><button id="btn238" type="button" class="mybutton radBtn">鬥</button></td>
-				<td><button id="btn239" type="button" class="mybutton radBtn">鬯</button></td>
-				<td><button id="btn240" type="button" class="mybutton radBtn">鬲</button></td>
-				<td><button id="btn241" type="button" class="mybutton radBtn">鬼</button></td>
-				<td><button id="btn242" type="button" class="mybutton radBtn">竜</button></td>
-				<td><button id="btn243" type="button" class="mybutton radBtn">韋</button></td>
-				<td><button id="btn244" type="button" class="mybutton numBtn">11</button></td>
-				<td><button id="btn245" type="button" class="mybutton radBtn">魚</button></td>
-				<td><button id="btn246" type="button" class="mybutton radBtn">鳥</button></td>
-				<td><button id="btn247" type="button" class="mybutton radBtn">鹵</button></td>
-				<td><button id="btn248" type="button" class="mybutton radBtn">鹿</button></td>
-				<td><button id="btn249" type="button" class="mybutton radBtn">麻</button></td>
-				<td><button id="btn250" type="button" class="mybutton radBtn">亀</button></td>
-			</tr>
-			<tr>
-				<td><button id="btn251" type="button" class="mybutton radBtn">啇</button></td>
-				<td><button id="btn252" type="button" class="mybutton radBtn">黄</button></td>
-				<td><button id="btn253" type="button" class="mybutton radBtn">黒</button></td>
-				<td><button id="btn254" type="button" class="mybutton numBtn">12</button></td>
-				<td><button id="btn255" type="button" class="mybutton radBtn">黍</button></td>
-				<td><button id="btn256" type="button" class="mybutton radBtn">黹</button></td>
-				<td><button id="btn257" type="button" class="mybutton radBtn">無</button></td>
-				<td><button id="btn258" type="button" class="mybutton radBtn">歯</button></td>
-				<td><button id="btn259" type="button" class="mybutton numBtn">13</button></td>
-				<td><button id="btn260" type="button" class="mybutton radBtn">黽</button></td>
-				<td><button id="btn261" type="button" class="mybutton radBtn">鼎</button></td>
-				<td><button id="btn262" type="button" class="mybutton radBtn">鼓</button></td>
-				<td><button id="btn263" type="button" class="mybutton radBtn">鼠</button></td>
-				<td><button id="btn264" type="button" class="mybutton numBtn">14</button></td>
-				<td><button id="btn265" type="button" class="mybutton radBtn">鼻</button></td>
-				<td><button id="btn266" type="button" class="mybutton radBtn">齊</button></td>
-				<td><button id="btn267" type="button" class="mybutton numBtn">17</button></td>
-				<td><button id="btn268" type="button" class="mybutton radBtn">龠</button></td>
-		</table>
-	</div>
-	<div id="search_rslt"></div>
-</body>
+                    <div class="ui-block-d" style="width:13%">
+                        <input type="number" name="sampleNum" id="sampleNum" value="15" data-mini="true"/>
+                    </div>
+                </div>
+                
+                <!-- Radicals selection Area  -->
+                <div id="radicalLst" data-role="collapsible" data-collapsed-icon="arrow-r" data-expanded-icon="arrow-d" data-mini="true">
+                    <h3>部首</h3>
+                    <div class="listRadicals">
+                        <a href="#" class="a-num">1</a>
+                        <a href="#" class="a-rad">一</a>
+                        <a href="#" class="a-rad">｜</a>
+                        <a href="#" class="a-rad">丶</a>
+                        <a href="#" class="a-rad">ノ</a>
+                        <a href="#" class="a-rad">乙</a>
+                        <a href="#" class="a-rad">亅</a>
+                        <a href="#" class="a-num">2</a>
+                        <a href="#" class="a-rad">二</a>
+                        <a href="#" class="a-rad">亠</a>
+                        <a href="#" class="a-rad">人</a>
+                        <a href="#" class="a-rad">⺅</a>
+                        <a href="#" class="a-rad">𠆢</a>
+                        <a href="#" class="a-rad">儿</a>
+                        <a href="#" class="a-rad">入</a>
+                        <a href="#" class="a-rad">ハ</a>
+                        <a href="#" class="a-rad">丷</a>
+                        <a href="#" class="a-rad">冂</a>
+                        <a href="#" class="a-rad">冖</a>
+                        <a href="#" class="a-rad">冫</a>
+                        <a href="#" class="a-rad">几</a>
+                        <a href="#" class="a-rad">凵</a>
+                        <a href="#" class="a-rad">刀</a>
+                        <a href="#" class="a-rad">⺉</a>
+                        <a href="#" class="a-rad">力</a>
+                        <a href="#" class="a-rad">勹</a>
+                        <a href="#" class="a-rad">匕</a>
+                        <a href="#" class="a-rad">匚</a>
+                        <a href="#" class="a-rad">十</a>
+                        <a href="#" class="a-rad">卜</a>
+                        <a href="#" class="a-rad">卩</a>
+                        <a href="#" class="a-rad">厂</a>
+                        <a href="#" class="a-rad">厶</a>
+                        <a href="#" class="a-rad">又</a>
+                        <a href="#" class="a-rad">マ</a>
+                        <a href="#" class="a-rad">九</a>
+                        <a href="#" class="a-rad">ユ</a>
+                        <a href="#" class="a-rad">乃</a>
+                        <a href="#" class="a-rad">𠂉</a>
+                        <a href="#" class="a-num">3</a>
+                        <a href="#" class="a-rad">⻌</a>
+                        <a href="#" class="a-rad">口</a>
+                        <a href="#" class="a-rad">囗</a>
+                        <a href="#" class="a-rad">土</a>
+                        <a href="#" class="a-rad">士</a>
+                        <a href="#" class="a-rad">夂</a>
+                        <a href="#" class="a-rad">夕</a>
+                        <a href="#" class="a-rad">大</a>
+                        <a href="#" class="a-rad">女</a>
+                        <a href="#" class="a-rad">子</a>
+                        <a href="#" class="a-rad">宀</a>
+                        <a href="#" class="a-rad">寸</a>
+                        <a href="#" class="a-rad">小</a>
+                        <a href="#" class="a-rad">⺌</a>
+                        <a href="#" class="a-rad">尢</a>
+                        <a href="#" class="a-rad">尸</a>
+                        <a href="#" class="a-rad">屮</a>
+                        <a href="#" class="a-rad">山</a>
+                        <a href="#" class="a-rad">川</a>
+                        <a href="#" class="a-rad">巛</a>
+                        <a href="#" class="a-rad">工</a>
+                        <a href="#" class="a-rad">已</a>
+                        <a href="#" class="a-rad">巾</a>
+                        <a href="#" class="a-rad">干</a>
+                        <a href="#" class="a-rad">幺</a>
+                        <a href="#" class="a-rad">广</a>
+                        <a href="#" class="a-rad">廴</a>
+                        <a href="#" class="a-rad">廾</a>
+                        <a href="#" class="a-rad">弋</a>
+                        <a href="#" class="a-rad">弓</a>
+                        <a href="#" class="a-rad">ヨ</a>
+                        <a href="#" class="a-rad">彑</a>
+                        <a href="#" class="a-rad">彡</a>
+                        <a href="#" class="a-rad">彳</a>
+                        <a href="#" class="a-rad">⺖</a>
+                        <a href="#" class="a-rad">⺘</a>
+                        <a href="#" class="a-rad">⺡</a>
+                        <a href="#" class="a-rad">⺨</a>
+                        <a href="#" class="a-rad">⺾</a>
+                        <a href="#" class="a-rad">⻏</a>
+                        <a href="#" class="a-rad">⻖</a>
+                        <a href="#" class="a-rad">也</a>
+                        <a href="#" class="a-rad">亡</a>
+                        <a href="#" class="a-rad">及</a>
+                        <a href="#" class="a-rad">久</a>
+                        <a href="#" class="a-num">4</a>
+                        <a href="#" class="a-rad">⺹</a>
+                        <a href="#" class="a-rad">心</a>
+                        <a href="#" class="a-rad">戈</a>
+                        <a href="#" class="a-rad">戸</a>
+                        <a href="#" class="a-rad">手</a>
+                        <a href="#" class="a-rad">支</a>
+                        <a href="#" class="a-rad">攵</a>
+                        <a href="#" class="a-rad">文</a>
+                        <a href="#" class="a-rad">斗</a>
+                        <a href="#" class="a-rad">斤</a>
+                        <a href="#" class="a-rad">方</a>
+                        <a href="#" class="a-rad">无</a>
+                        <a href="#" class="a-rad">日</a>
+                        <a href="#" class="a-rad">曰</a>
+                        <a href="#" class="a-rad">月</a>
+                        <a href="#" class="a-rad">木</a>
+                        <a href="#" class="a-rad">欠</a>
+                        <a href="#" class="a-rad">止</a>
+                        <a href="#" class="a-rad">歹</a>
+                        <a href="#" class="a-rad">殳</a>
+                        <a href="#" class="a-rad">比</a>
+                        <a href="#" class="a-rad">毛</a>
+                        <a href="#" class="a-rad">氏</a>
+                        <a href="#" class="a-rad">气</a>
+                        <a href="#" class="a-rad">水</a>
+                        <a href="#" class="a-rad">火</a>
+                        <a href="#" class="a-rad">⺣</a>
+                        <a href="#" class="a-rad">爪</a>
+                        <a href="#" class="a-rad">父</a>
+                        <a href="#" class="a-rad">爻</a>
+                        <a href="#" class="a-rad">爿</a>
+                        <a href="#" class="a-rad">片</a>
+                        <a href="#" class="a-rad">牛</a>
+                        <a href="#" class="a-rad">犬</a>
+                        <a href="#" class="a-rad">⺭</a>
+                        <a href="#" class="a-rad">王</a>
+                        <a href="#" class="a-rad">元</a>
+                        <a href="#" class="a-rad">井</a>
+                        <a href="#" class="a-rad">勿</a>
+                        <a href="#" class="a-rad">尤</a>
+                        <a href="#" class="a-rad">五</a>
+                        <a href="#" class="a-rad">屯</a>
+                        <a href="#" class="a-rad">巴</a>
+                        <a href="#" class="a-rad">毋</a>
+                        <a href="#" class="a-num">5</a>
+                        <a href="#" class="a-rad">玄</a>
+                        <a href="#" class="a-rad">瓦</a>
+                        <a href="#" class="a-rad">甘</a>
+                        <a href="#" class="a-rad">生</a>
+                        <a href="#" class="a-rad">用</a>
+                        <a href="#" class="a-rad">田</a>
+                        <a href="#" class="a-rad">疋</a>
+                        <a href="#" class="a-rad">疒</a>
+                        <a href="#" class="a-rad">癶</a>
+                        <a href="#" class="a-rad">白</a>
+                        <a href="#" class="a-rad">皮</a>
+                        <a href="#" class="a-rad">皿</a>
+                        <a href="#" class="a-rad">目</a>
+                        <a href="#" class="a-rad">矛</a>
+                        <a href="#" class="a-rad">矢</a>
+                        <a href="#" class="a-rad">石</a>
+                        <a href="#" class="a-rad">示</a>
+                        <a href="#" class="a-rad">禸</a>
+                        <a href="#" class="a-rad">禾</a>
+                        <a href="#" class="a-rad">穴</a>
+                        <a href="#" class="a-rad">立</a>
+                        <a href="#" class="a-rad">⻂</a>
+                        <a href="#" class="a-rad">世</a>
+                        <a href="#" class="a-rad">巨</a>
+                        <a href="#" class="a-rad">冊</a>
+                        <a href="#" class="a-rad">母</a>
+                        <a href="#" class="a-rad">⺲</a>
+                        <a href="#" class="a-rad">牙</a>
+                        <a href="#" class="a-num">6</a>
+                        <a href="#" class="a-rad">瓜</a>
+                        <a href="#" class="a-rad">竹</a>
+                        <a href="#" class="a-rad">米</a>
+                        <a href="#" class="a-rad">糸</a>
+                        <a href="#" class="a-rad">缶</a>
+                        <a href="#" class="a-rad">羊</a>
+                        <a href="#" class="a-rad">羽</a>
+                        <a href="#" class="a-rad">而</a>
+                        <a href="#" class="a-rad">耒</a>
+                        <a href="#" class="a-rad">耳</a>
+                        <a href="#" class="a-rad">聿</a>
+                        <a href="#" class="a-rad">肉</a>
+                        <a href="#" class="a-rad">自</a>
+                        <a href="#" class="a-rad">至</a>
+                        <a href="#" class="a-rad">臼</a>
+                        <a href="#" class="a-rad">舌</a>
+                        <a href="#" class="a-rad">舟</a>
+                        <a href="#" class="a-rad">艮</a>
+                        <a href="#" class="a-rad">色</a>
+                        <a href="#" class="a-rad">虍</a>
+                        <a href="#" class="a-rad">虫</a>
+                        <a href="#" class="a-rad">血</a>
+                        <a href="#" class="a-rad">行</a>
+                        <a href="#" class="a-rad">衣</a>
+                        <a href="#" class="a-rad">西</a>
+                        <a href="#" class="a-num">7</a>
+                        <a href="#" class="a-rad">臣</a>
+                        <a href="#" class="a-rad">見</a>
+                        <a href="#" class="a-rad">角</a>
+                        <a href="#" class="a-rad">言</a>
+                        <a href="#" class="a-rad">谷</a>
+                        <a href="#" class="a-rad">豆</a>
+                        <a href="#" class="a-rad">豕</a>
+                        <a href="#" class="a-rad">豸</a>
+                        <a href="#" class="a-rad">貝</a>
+                        <a href="#" class="a-rad">赤</a>
+                        <a href="#" class="a-rad">走</a>
+                        <a href="#" class="a-rad">足</a>
+                        <a href="#" class="a-rad">身</a>
+                        <a href="#" class="a-rad">車</a>
+                        <a href="#" class="a-rad">辛</a>
+                        <a href="#" class="a-rad">辰</a>
+                        <a href="#" class="a-rad">酉</a>
+                        <a href="#" class="a-rad">釆</a>
+                        <a href="#" class="a-rad">里</a>
+                        <a href="#" class="a-rad">舛</a>
+                        <a href="#" class="a-rad">麦</a>
+                        <a href="#" class="a-num">8</a>
+                        <a href="#" class="a-rad">金</a>
+                        <a href="#" class="a-rad">長</a>
+                        <a href="#" class="a-rad">門</a>
+                        <a href="#" class="a-rad">隶</a>
+                        <a href="#" class="a-rad">隹</a>
+                        <a href="#" class="a-rad">雨</a>
+                        <a href="#" class="a-rad">青</a>
+                        <a href="#" class="a-rad">非</a>
+                        <a href="#" class="a-rad">奄</a>
+                        <a href="#" class="a-rad">岡</a>
+                        <a href="#" class="a-rad">免</a>
+                        <a href="#" class="a-rad">斉</a>
+                        <a href="#" class="a-num">9</a>
+                        <a href="#" class="a-rad">面</a>
+                        <a href="#" class="a-rad">革</a>
+                        <a href="#" class="a-rad">韭</a>
+                        <a href="#" class="a-rad">音</a>
+                        <a href="#" class="a-rad">頁</a>
+                        <a href="#" class="a-rad">風</a>
+                        <a href="#" class="a-rad">飛</a>
+                        <a href="#" class="a-rad">食</a>
+                        <a href="#" class="a-rad">首</a>
+                        <a href="#" class="a-rad">香</a>
+                        <a href="#" class="a-rad">品</a>
+                        <a href="#" class="a-num">10</a>
+                        <a href="#" class="a-rad">馬</a>
+                        <a href="#" class="a-rad">骨</a>
+                        <a href="#" class="a-rad">高</a>
+                        <a href="#" class="a-rad">髟</a>
+                        <a href="#" class="a-rad">鬥</a>
+                        <a href="#" class="a-rad">鬯</a>
+                        <a href="#" class="a-rad">鬲</a>
+                        <a href="#" class="a-rad">鬼</a>
+                        <a href="#" class="a-rad">竜</a>
+                        <a href="#" class="a-rad">韋</a>
+                        <a href="#" class="a-num">11</a>
+                        <a href="#" class="a-rad">魚</a>
+                        <a href="#" class="a-rad">鳥</a>
+                        <a href="#" class="a-rad">鹵</a>
+                        <a href="#" class="a-rad">鹿</a>
+                        <a href="#" class="a-rad">麻</a>
+                        <a href="#" class="a-rad">亀</a>
+                        <a href="#" class="a-rad">啇</a>
+                        <a href="#" class="a-rad">黄</a>
+                        <a href="#" class="a-rad">黒</a>
+                        <a href="#" class="a-num">12</a>
+                        <a href="#" class="a-rad">黍</a>
+                        <a href="#" class="a-rad">黹</a>
+                        <a href="#" class="a-rad">無</a>
+                        <a href="#" class="a-rad">歯</a>
+                        <a href="#" class="a-num">13</a>
+                        <a href="#" class="a-rad">黽</a>
+                        <a href="#" class="a-rad">鼎</a>
+                        <a href="#" class="a-rad">鼓</a>
+                        <a href="#" class="a-rad">鼠</a>
+                        <a href="#" class="a-num">14</a>
+                        <a href="#" class="a-rad">鼻</a>
+                        <a href="#" class="a-rad">齊</a>
+                        <a href="#" class="a-num">17</a>
+                        <a href="#" class="a-rad">龠</a>
+                    </div>
+                </div>
+                
+                <!-- Search Result -->
+                <div id="search_rslt" data-position="fixed">
+                </div>
+            </div>
+        </div>
+        
+    </body>
 </html>

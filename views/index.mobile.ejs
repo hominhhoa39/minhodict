@@ -1,0 +1,45 @@
+<span class="num-rslt">結果が<%= kanjis.length%>件</span>
+<% for(var i=0; i<kanjis.length; i++) {%>
+<div class="kanji">
+    <div class="ui-grid-a">
+        <div class="ui-block-a" style="width:25%">
+            <div class="vkan"><%= kanjis[i].vkan %></div>
+            <div class="ji"><%= kanjis[i].ji %></div>
+            <div class="parts"><%= kanjis[i].parts.join("") %></div>
+        </div>
+        <div class="ui-block-b" style="width:75%">
+            <div class="means"><%= kanjis[i].means.join(", ") %></div>
+            <div class="ui-grid-a">
+                <div class="ui-block-a" style="width:85%">
+                    <div class="on"><%= kanjis[i].on.join("、") %></div>
+                </div>
+                <div class="ui-block-b" style="width:15%">
+                    <div class="jlpt"><%= kanjis[i].jlpt %></div>
+                </div>
+            </div>
+            <div class="kuns">
+                <div class="ui-grid-a">
+                    <% for(var j=0; j<kanjis[i].kun.length; j++) {%>
+                        <% if (kanjis[i].kun[j].suffix === "") { %>
+                            <div class="<%= ( j % 2 === 0) ? "ui-block-a" : "ui-block-b" %>" style="width:50%"><%= kanjis[i].kun[j].main %></div>
+                        <% } else { %>
+                            <div class="<%= ( j % 2 === 0) ? "ui-block-a" : "ui-block-b" %>" style="width:50%"><%= kanjis[i].kun[j].main %>・<%= kanjis[i].kun[j].suffix %></div>
+                        <% } %>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% if (kanjis[i].sample !== null) {%>
+        <div class="samples">
+            <% for(var j=0; j<kanjis[i].sample.length; j++) {%>
+                <div class="sample">
+                    <span class="word"><%= kanjis[i].sample[j].word %></span>&nbsp;
+                    [<span class="read"><%= kanjis[i].sample[j].read %></span>]&nbsp;
+                    <span class="mean"><%= kanjis[i].sample[j].mean %></span>
+                </div>
+            <% } %>
+        </div>
+    <% } %>
+</div>
+<% } %>
