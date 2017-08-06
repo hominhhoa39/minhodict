@@ -1,0 +1,4 @@
+{
+    "hostname": "mongodb://minho_admin:minho_Pwd_202@ds034797.mlab.com:34797/minhodict",
+    "dbname": "minhodict"
+}

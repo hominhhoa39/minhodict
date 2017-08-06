@@ -24,7 +24,7 @@
     max-width: 15px;
     min-height: 15px;
     min-width: 15px;
-    font: 13px Calibri,Arial !important;
+    font: 13px Helvetica,Calibri,Arial !important;
 }
 
 .a-rad:hover, .a-rad:active {
@@ -46,7 +46,7 @@
     max-width: 15px;
     min-height: 15px;
     min-width: 15px;
-    font: 13px Calibri,Arial !important;
+    font: 13px Helvetica,Calibri,Arial !important;
 }
 .num-rslt {
     margin-bottom: 20px;
@@ -111,4 +111,13 @@
 }
 .mean{
 
+}
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid lightgrey;
+    margin: 1em 0;
+    padding: 0;
 }
