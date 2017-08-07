@@ -14,7 +14,7 @@ app.use('/css', express.static(__dirname + '/css'));
 app.use('/views', express.static(__dirname + '/views'));
 
 var db
-var mongoUrlStr = process.env.CONNECT_STR;
+var mongoUrlStr = ENV['MONGODB_URI'];
 MongoClient.connect(mongoUrlStr, function(err, database) {
     if (err)
         return console.log(err)
