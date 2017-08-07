@@ -1,9 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser'); 
 var ejs = require('ejs');
-var fs = require('fs');
-
-var config = JSON.parse(fs.readFileSync('./config/config.json', 'UTF-8'));
 
 var MongoClient = require('mongodb').MongoClient;
 
@@ -17,7 +14,7 @@ app.use('/css', express.static(__dirname + '/css'));
 app.use('/views', express.static(__dirname + '/views'));
 
 var db
-var mongoUrlStr = config.hostname;
+var mongoUrlStr = process.env.CONNECT_STR;
 MongoClient.connect(mongoUrlStr, function(err, database) {
     if (err)
         return console.log(err)
