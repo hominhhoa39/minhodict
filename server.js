@@ -20,8 +20,7 @@ MongoClient.connect(process.env.MONGODB_URI, function(err, database) {
         return console.log(err)
     db = database
     app.listen(process.env.PORT || 8080, function() {
-        var port = server.address().port;
-        console.log("App now running on port", port);
+        console.log("App now running on port");
     })
 })
 
