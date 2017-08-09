@@ -39,7 +39,7 @@ $(function() {
                 'sCon' : conSearch,
             };
 
-            var url = 'http://localhost:3000/search';
+            var url = '/search';
 
             $.ajax({
                 type : 'GET',
