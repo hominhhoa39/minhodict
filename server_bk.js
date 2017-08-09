@@ -32,7 +32,6 @@ app.get('/search', function(req, res) {
     var obj = req.query;
     obj.status = "successful";
     var query = {};
-    //AND condition
     if (obj.sCon === 'and') {
         query["$and"] = [];
         var arr = obj.sData.split(',');
@@ -52,67 +51,31 @@ app.get('/search', function(req, res) {
             query["$and"].push(jlptTemp);
         }
     } else {
-    // OR condition
         var arr = obj.sData.split(',');
-        /* console.log("1");
-        if ( obj.sType = "kun" && obj.sSubType === undefined && obj.sData.indexOf("*") >= 0) {
-            console.log("1.1");
-            var orTemp = {};
-            orTemp["$or"] = [];
-            for (var i = 0; i < arr.length; i++) {
-                var tempData = arr[i].trim();
-                var firstChar = tempData.charAt(0);
-                var lastChar = tempData.charAt(tempData.length - 1);
-                var regexKun = {};
-                var kunX = ((tempData.indexOf("・") >= 0) ? "kun.reading" : "kun.full"); */
-                //var finalTmpData = tempData.replace(/\*/g, "");
-            /*    if (firstChar === "*" && lastChar === "*") {
-                    regexKun[kunX] = new RegExp(finalTmpData, "i");
-                } else if ( firstChar !== "*" && lastChar === "*") {
-                    regexKun[kunX] = new RegExp('^' + finalTmpData);
-                } else if ( firstChar === "*" && lastChar !== "*") {
-                    regexKun[kunX] = new RegExp(finalTmpData + '$');
-                } else {
-                    regexKun[kunX] = finalTmpData;
-                }
-                orTemp["$or"].push(regexKun);
+        var inTemp = {};
+        inTemp["$in"] = [];
+        for (var i = 0; i < arr.length; i++) {
+            if (arr[i].trim() !== "") {
+                inTemp["$in"].push(arr[i].trim());
             }
+        }
+        if (inTemp["$in"].length > 0) {
             query["$and"] = [];
-            query["$and"].push(orTemp);
+            var partTemp = {};
+            partTemp[obj.sType] = inTemp;
+            query["$and"].push(partTemp);
             if (obj.sJlpt !== "") {
                 var jlptTemp = {};
                 jlptTemp["jlpt"] = obj.sJlpt;
                 query["$and"].push(jlptTemp);
             }
         } else {
-            console.log("1.2");
-        */
-            var inTemp = {};
-            inTemp["$in"] = [];
-            for (var i = 0; i < arr.length; i++) {
-                if (arr[i].trim() !== "") {
-                    inTemp["$in"].push(arr[i].trim());
-                }
+            if (obj.sJlpt !== "") {
+                var jlptTemp = {};
+                jlptTemp["jlpt"] = obj.sJlpt;
+                query = jlptTemp;
             }
-            if (inTemp["$in"].length > 0) {
-                query["$and"] = [];
-                var partTemp = {};
-                var mainField = ((obj.sSubType !== undefined) ? (obj.sType + "." + obj.sSubType) : (obj.sType) );
-                partTemp[mainField] = inTemp;
-                query["$and"].push(partTemp);
-                if (obj.sJlpt !== "") {
-                    var jlptTemp = {};
-                    jlptTemp["jlpt"] = obj.sJlpt;
-                    query["$and"].push(jlptTemp);
-                }
-            } else {
-                if (obj.sJlpt !== "") {
-                    var jlptTemp = {};
-                    jlptTemp["jlpt"] = obj.sJlpt;
-                    query = jlptTemp;
-                }
-            }
-        //}
+        }
     }
     //console.log(query);
 

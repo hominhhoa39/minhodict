@@ -11,7 +11,6 @@ $(function() {
     $('#ddlType').change(function(){
         if (this.value === "parts") {
             $("#ddlCon").removeAttr('disabled');
-            
             $("#radicalLst").removeClass('ui-disabled');
         } else {
             $("#ddlCon").val("or").change();
@@ -25,7 +24,7 @@ $(function() {
         e.preventDefault();
         $("#radicalLst").collapsible({ collapsed: true });
         
-        var dataSearch = $("#txtSearch").val();
+        var dataSearch = $("#txtSearch").val().toUpperCase();
         var typeSearch = $('#ddlType').find(":selected").val();
         var jlptSearch = $('#ddlJlpt :radio:checked').val();
         var conSearch = $('#ddlCon').find(":selected").val();
@@ -39,18 +38,40 @@ $(function() {
                 'sCon' : conSearch,
             };
 
-            var url = '/search';
-
             $.ajax({
                 type : 'GET',
                 data : data,
                 contentType : 'application/json;charset=UTF-8;',
-                url : url,
+                url : '/search',
                 success : function(returnData) {
                     $("#search_rslt").html("");
                     $("#search_rslt").append(returnData);
                 }
             });
         }
+    });
+    
+    $('#search_rslt').on('click','.a-vkan, .a-part, .a-kun, .a-on',function(e) {
+        e.preventDefault();
+        var dataInName = $(this).attr("name");
+        var jsonData = JSON.parse(dataInName);
+        jsonData.sJlpt = "";
+        jsonData.sCon = "or";
+        $("#txtSearch").val(jsonData.sData);
+        $('#ddlType').val(jsonData.sType).change();
+        $("#ddlCon").val(jsonData.sCon).change();
+        $("#ddlJlpt").val(jsonData.sJlpt).change();
+
+        $.ajax({
+            type : 'GET',
+            data : jsonData,
+            contentType : 'application/json;charset=UTF-8;',
+            url : '/search',
+            success : function(returnData) {
+                $("#search_rslt").html("");
+                $("#search_rslt").append(returnData);
+            }
+        });
+        
     });
 });

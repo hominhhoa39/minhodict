@@ -48,6 +48,35 @@
     min-width: 15px;
     font: 13px Helvetica,Calibri,Arial !important;
 }
+
+.a-part:link, .a-part:visited {
+    color: black;
+    text-decoration: none;
+    display: inline-block;
+    font: 10pt Helvetica,Calibri,Arial !important;
+}
+
+.a-on:link, .a-on:visited {
+    color: black;
+    text-decoration: none;
+    display: inline-block;
+    font: 13px Helvetica,Calibri,Arial !important;
+}
+
+.a-kun:link, .a-kun:visited {
+    color: black;
+    text-decoration: none;
+    display: inline-block;
+    font: 13px Helvetica,Calibri,Arial !important;
+}
+
+.a-vkan:link, .a-vkan:visited {
+    color: black;
+    text-decoration: none;
+    display: inline-block;
+    font: 12pt Helvetica,Calibri,Arial !important;
+}
+
 .num-rslt {
     margin-bottom: 20px;
     margin-top: 20px;
