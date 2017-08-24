@@ -24,11 +24,12 @@ $(function() {
         e.preventDefault();
         $("#radicalLst").collapsible({ collapsed: true });
         
-        var dataSearch = $("#txtSearch").val().toUpperCase();
+        var dataSearch = $('#txtSearch').val().toUpperCase();
         var typeSearch = $('#ddlType').find(":selected").val();
         var jlptSearch = $('#ddlJlpt :radio:checked').val();
         var conSearch = $('#ddlCon').find(":selected").val();
         var smpNumSearch = parseInt($('#sampleNum').val());
+        var langSearch = $('#ddlLang').find(":selected").val();
         if (dataSearch === "") {
             alert("Please input something!");
         } else {
@@ -38,6 +39,7 @@ $(function() {
                 'sJlpt' : jlptSearch,
                 'sCon' : conSearch,
                 'sNum' : smpNumSearch,
+                'sLang': langSearch,
             };
 
             $.ajax({

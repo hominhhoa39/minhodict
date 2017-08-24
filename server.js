@@ -35,6 +35,7 @@ app.get('/search', function(req, res) {
     var query = {};
     var arr;
     var smpNum = obj.sNum;
+    var langVal = obj.sLang;
     if (obj.sType === "ji") {
         var tmpData = obj.sData.replace(/[\s　,、.。;；]/g, '');
         var patt = /[\u4E00-\u9FAF]/;
@@ -163,7 +164,13 @@ app.get('/search', function(req, res) {
                 lastRslt.push(kanji);
 
                 if (lastRslt.length === count) {
-                    ejs.renderFile(__dirname + '/views/index.mobile.ejs', {
+                    var ejsFile = "";
+                    if (langVal === "vn") {
+                        ejsFile = '/views/index.mobile.vn.ejs';
+                    } else {
+                        ejsFile = '/views/index.mobile.ejs';
+                    }
+                    ejs.renderFile(__dirname + ejsFile, {
                         kanjis: lastRslt
                     }, {}, function(err, str) {
                         if (err) {
