@@ -32,10 +32,24 @@ app.get('/search', function(req, res) {
     var obj = req.query;
     obj.status = "successful";
     var query = {};
+    var arr;
+    if (obj.sType === "ji") {
+        var tmpData = obj.sData.replace(/[\s　,、.。;；]/g, '');
+        var patt = /[\u4E00-\u9FAF]/;
+        arr = [];
+        for (var i=0; i< tmpData.length; i++) {
+            if (tmpData[i].match(patt)) {
+                arr.push(tmpData[i]);
+            }
+        }
+    } else {
+        arr = obj.sData.split(/[\s　,、.。;；]+/);
+    }
+        
     //AND condition
     if (obj.sCon === 'and') {
         query["$and"] = [];
-        var arr = obj.sData.split(',');
+        
         for (var i = 0; i < arr.length; i++) {
             if (arr[i].trim() !== "") {
                 var inTemp = {};
