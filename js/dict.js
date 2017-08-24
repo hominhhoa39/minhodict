@@ -28,6 +28,7 @@ $(function() {
         var typeSearch = $('#ddlType').find(":selected").val();
         var jlptSearch = $('#ddlJlpt :radio:checked').val();
         var conSearch = $('#ddlCon').find(":selected").val();
+        var smpNumSearch = parseInt($('#sampleNum').val());
         if (dataSearch === "") {
             alert("Please input something!");
         } else {
@@ -36,6 +37,7 @@ $(function() {
                 'sType' : typeSearch,
                 'sJlpt' : jlptSearch,
                 'sCon' : conSearch,
+                'sNum' : smpNumSearch,
             };
 
             $.ajax({

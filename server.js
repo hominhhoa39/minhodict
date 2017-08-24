@@ -34,6 +34,7 @@ app.get('/search', function(req, res) {
     obj.status = "successful";
     var query = {};
     var arr;
+    var smpNum = obj.sNum;
     if (obj.sType === "ji") {
         var tmpData = obj.sData.replace(/[\s　,、.。;；]/g, '');
         var patt = /[\u4E00-\u9FAF]/;
@@ -148,7 +149,7 @@ app.get('/search', function(req, res) {
         }
 
         kanjiCursor.forEach(function(kanji) {
-            var kanjiRef = ((kanji.ref_words.length > 10) ? kanji.ref_words.slice(0,10) : kanji.ref_words);
+            var kanjiRef = ((kanji.ref_words.length > smpNum) ? kanji.ref_words.slice(0, smpNum) : kanji.ref_words);
             wordscollection.find({
                 "id": {
                     $in: kanjiRef
