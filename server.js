@@ -15,7 +15,8 @@ app.use('/views', express.static(__dirname + '/views'));
 
 var db
 
-MongoClient.connect(process.env.MONGODB_URI, function(err, database) {
+MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/dictionary', function(err, database) {
+//MongoClient.connect(, function(err, database) {
     if (err)
         return console.log(err)
     db = database
@@ -45,7 +46,6 @@ app.get('/search', function(req, res) {
     } else {
         arr = obj.sData.split(/[\s　,、.。;；]+/);
     }
-        
     //AND condition
     if (obj.sCon === 'and') {
         query["$and"] = [];
@@ -60,14 +60,14 @@ app.get('/search', function(req, res) {
                 query["$and"].push(partTemp);
             }
         }
-        if (obj.sJlpt !== "") {
+        if (obj.sJlpt !== "" && obj.sType !== "ji") {
             var jlptTemp = {};
             jlptTemp["jlpt"] = obj.sJlpt;
             query["$and"].push(jlptTemp);
         }
     } else {
     // OR condition
-        var arr = obj.sData.split(',');
+        //var arr = obj.sData.split(',');
         /* console.log("1");
         if ( obj.sType = "kun" && obj.sSubType === undefined && obj.sData.indexOf("*") >= 0) {
             console.log("1.1");
@@ -120,7 +120,7 @@ app.get('/search', function(req, res) {
                     query["$and"].push(jlptTemp);
                 }
             } else {
-                if (obj.sJlpt !== "") {
+                if (obj.sJlpt !== "" && obj.sType !== "ji") {
                     var jlptTemp = {};
                     jlptTemp["jlpt"] = obj.sJlpt;
                     query = jlptTemp;
