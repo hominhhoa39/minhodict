@@ -1,8 +1,8 @@
 <div class="num-rslt">結果が<%= kanjis.length%>件</div>
 <hr/>
 <% for(var i=0; i<kanjis.length; i++) {%>
-    <div class="kanji">
-        <div class="ui-grid-a">
+    <div class="kanji container">
+        <div class="ui-grid-a header">
             <div class="ui-block-a" style="width:25%">
                 <div class="vkan">
                     <a href="#" class="a-vkan" name='{"sType":"ekan","sData":"<%= kanjis[i].ekan%>"}'><%= kanjis[i].vkan%></a>
@@ -48,7 +48,7 @@
             </div>
         </div>
         <% if (kanjis[i].sample !== null) {%>
-            <div class="samples">
+            <div class="samples content">
                 <% for(var j=0; j<kanjis[i].sample.length; j++) {%>
                     <div class="sample">
                         <span class="word"><%= kanjis[i].sample[j].word %></span>&nbsp;
