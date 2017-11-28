@@ -1,13 +1,7 @@
-.container {
-    width:100%;
-}
-.container div {
-    width:100%;
-}
 .container .header {
-    padding: 2px;
     cursor: pointer;
     background-color: #f0f0f0
+    border-top: 1px solid lightgrey;
 }
 
 .center-wrapper{
@@ -153,13 +147,4 @@
 }
 .mean{
 
-}
-
-hr {
-    display: block;
-    height: 1px;
-    border: 0;
-    border-top: 1px solid lightgrey;
-    margin: 1em 0;
-    padding: 0;
 }
