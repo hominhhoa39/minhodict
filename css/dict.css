@@ -1,3 +1,15 @@
+.container {
+    width:100%;
+}
+.container div {
+    width:100%;
+}
+.container .header {
+    padding: 2px;
+    cursor: pointer;
+    background-color: #f0f0f0
+}
+
 .center-wrapper{
     text-align: center;
 }
@@ -98,6 +110,7 @@
     font-size: 30pt;
     border: 1px solid black;
     text-align: center;
+    background-color: white
 }
 
 .vkan {
@@ -149,15 +162,4 @@ hr {
     border-top: 1px solid lightgrey;
     margin: 1em 0;
     padding: 0;
-}
-
-.container {
-    width:100%;
-}
-.container div {
-    width:100%;
-}
-.container .header {
-    padding: 2px;
-    cursor: pointer;
 }
